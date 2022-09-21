@@ -2,7 +2,7 @@ module com.example.proyecto_chat {
     requires javafx.controls;
     requires javafx.fxml;
 
+    exports controlador_vista;
+    opens controlador_vista to javafx.fxml;
 
-    opens com.example.proyecto_chat to javafx.fxml;
-    exports com.example.proyecto_chat;
 }

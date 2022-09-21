@@ -1,4 +1,4 @@
-package com.example.proyecto_chat;
+package controlador_vista;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

@@ -1,16 +1,70 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
-
+<?import com.gluonhq.charm.glisten.control.Avatar?>
+<?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Button?>
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="controlador_vista.HelloController">
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-    </padding>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 
-    <Label fx:id="welcomeText"/>
-    <Button text="Hello!" onAction="#onHelloButtonClick"/>
-</VBox>
+
+<GridPane prefHeight="350.0" prefWidth="599.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="295.0" minWidth="10.0" prefWidth="203.0" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="509.0" minWidth="10.0" prefWidth="397.0" />
+  </columnConstraints>
+  <rowConstraints>
+      <RowConstraints maxHeight="354.0" minHeight="10.0" prefHeight="354.0" vgrow="SOMETIMES" />
+  </rowConstraints>
+   <children>
+      <ListView prefHeight="200.0" prefWidth="200.0" />
+      <Accordion>
+        <panes>
+            <TitledPane animated="false" maxHeight="1.7976931348623157E308" text="Sistemas">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <RadioButton layoutX="29.0" layoutY="87.0" mnemonicParsing="false" text="Juan casique" />
+                        <RadioButton layoutX="27.0" layoutY="124.0" mnemonicParsing="false" text="Andres Lagos" />
+                        <RadioButton layoutX="29.0" layoutY="53.0" mnemonicParsing="false" text="Fraylejon hernensto" />
+                        <RadioButton layoutX="29.0" layoutY="158.0" mnemonicParsing="false" text="Valeria zapato" />
+                     </children>
+                  </AnchorPane>
+              </content>
+            </TitledPane>
+          <TitledPane animated="false" contentDisplay="CENTER" text="Compras" />
+          <TitledPane animated="false" text="Contaduria" />
+            <TitledPane animated="false" text="Recursos Humanos">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+              </content>
+            </TitledPane>
+            <TitledPane animated="false" prefHeight="290.0" prefWidth="203.0" text="Derecho">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+              </content>
+            </TitledPane>
+        </panes>
+      </Accordion>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
+         <children>
+            <ButtonBar layoutX="79.0" layoutY="296.0" prefHeight="40.0" prefWidth="200.0">
+              <buttons>
+                <Button mnemonicParsing="false" text="Enviar" />
+              </buttons>
+            </ButtonBar>
+            <Avatar layoutX="325.0" layoutY="36.0" radius="20.0">
+               <image>
+                  <Image url="@../../../../../../Users/david/Downloads/photo_5181789334825708174_y%20(1).jpg" />
+               </image>
+            </Avatar>
+         </children>
+      </AnchorPane>
+   </children>
+</GridPane>

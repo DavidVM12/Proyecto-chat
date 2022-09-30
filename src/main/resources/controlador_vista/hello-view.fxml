@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Button?>
@@ -19,7 +20,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<GridPane prefHeight="350.0" prefWidth="599.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+<GridPane prefHeight="350.0" prefWidth="599.0" stylesheets="@../css/DarkTheme.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" maxWidth="295.0" minWidth="10.0" prefWidth="203.0" />
     <ColumnConstraints hgrow="SOMETIMES" maxWidth="509.0" minWidth="10.0" prefWidth="397.0" />
@@ -28,31 +29,39 @@
       <RowConstraints maxHeight="354.0" minHeight="10.0" prefHeight="354.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <Accordion GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+      <Accordion stylesheets="@../css/DarkTheme.css" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
         <panes>
-            <TitledPane maxHeight="1.7976931348623157E308" style="-fx-background-color: #b91010;" text="Sistemas" textAlignment="JUSTIFY" textFill="#141414" textOverrun="CENTER_ELLIPSIS">
+            <TitledPane maxHeight="1.7976931348623157E308" styleClass="label-bright" stylesheets="@../css/DarkTheme.css" text="Sistemas" textAlignment="JUSTIFY" textFill="#141414" textOverrun="CENTER_ELLIPSIS">
               <content>
-                <AnchorPane accessibleRole="INCREMENT_BUTTON" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                <AnchorPane accessibleRole="INCREMENT_BUTTON" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" styleClass="anchorPane" stylesheets="@../css/DarkTheme.css">
                      <children>
-                        <RadioButton layoutX="14.0" layoutY="74.0" mnemonicParsing="false" text="Juan casique" />
-                        <RadioButton layoutX="13.0" layoutY="117.0" mnemonicParsing="false" text="Andres Lagos" />
-                        <RadioButton layoutX="14.0" layoutY="35.0" mnemonicParsing="false" text="Fraylejon hernensto" />
-                        <RadioButton layoutX="11.0" layoutY="157.0" mnemonicParsing="false" text="Valeria zapato" />
+                        <RadioButton layoutX="16.0" layoutY="65.0" mnemonicParsing="false" styleClass="label-bright" stylesheets="@../css/DarkTheme.css" text="Juan casique" />
+                        <RadioButton layoutX="14.0" layoutY="104.0" mnemonicParsing="false" styleClass="label-bright" stylesheets="@../css/DarkTheme.css" text="Andres Lagos" />
+                        <RadioButton fx:id="ff" layoutX="11.0" layoutY="23.0" mnemonicParsing="false" nodeOrientation="INHERIT" stylesheets="@../css/DarkTheme.css" text="Fraylejon hernensto">
+                           <styleClass>
+                              <String fx:value="label-bright" />
+                              <String fx:value="background" />
+                           </styleClass></RadioButton>
+                        <RadioButton layoutX="12.0" layoutY="145.0" mnemonicParsing="false" styleClass="label-bright" stylesheets="@../css/DarkTheme.css" text="Valeria zapato" />
                      </children>
                      <effect>
-                        <Bloom threshold="0.53" />
+                        <Bloom threshold="0.41" />
                      </effect>
                   </AnchorPane>
               </content>
             </TitledPane>
-          <TitledPane animated="false" contentDisplay="CENTER" text="Compras" />
-          <TitledPane animated="false" text="Contaduria" />
-            <TitledPane animated="false" text="Recursos Humanos">
+          <TitledPane animated="false" contentDisplay="CENTER" stylesheets="@../css/DarkTheme.css" text="Compras">
+               <styleClass>
+                  <String fx:value="background" />
+                  <String fx:value="label-bright" />
+               </styleClass></TitledPane>
+          <TitledPane animated="false" styleClass="label-bright" stylesheets="@../css/DarkTheme.css" text="Contaduria" />
+            <TitledPane animated="false" styleClass="label-bright" stylesheets="@../css/DarkTheme.css" text="Recursos Humanos">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
               </content>
             </TitledPane>
-            <TitledPane animated="false" prefHeight="290.0" prefWidth="203.0" text="Derecho">
+            <TitledPane animated="false" prefHeight="290.0" prefWidth="203.0" styleClass="label-bright" stylesheets="@../css/DarkTheme.css" text="Derecho">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
               </content>
@@ -64,12 +73,17 @@
          <padding>
             <Insets bottom="6.0" right="6.0" top="6.0" />
          </padding>
+         <styleClass>
+            <String fx:value="background" />
+            <String fx:value="context-menu" />
+            <String fx:value="menu-bar" />
+         </styleClass>
       </Accordion>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
+      <AnchorPane prefHeight="349.0" prefWidth="398.0" GridPane.columnIndex="1">
          <children>
-            <Label contentDisplay="CENTER" layoutX="82.0" layoutY="14.0" prefHeight="17.0" prefWidth="234.0" text="Proyecto mensajería" textOverrun="LEADING_ELLIPSIS">
+            <Label contentDisplay="CENTER" layoutX="81.0" layoutY="9.0" prefHeight="17.0" prefWidth="234.0" styleClass="label-title" stylesheets="@../css/DarkTheme.css" text="Proyecto mensajería" textFill="#e8e0e0" textOverrun="LEADING_ELLIPSIS">
                <font>
-                  <Font name="Book Antiqua" size="26.0" />
+                  <Font name="Bernard MT Condensed" size="64.0" />
                </font>
             </Label>
             <ScrollPane layoutX="23.0" layoutY="48.0" prefHeight="247.0" prefWidth="354.0">
@@ -80,17 +94,18 @@
                            <children>
                               <HBox prefHeight="100.0" prefWidth="200.0" />
                            </children>
+
                         </VBox>
                      </children>
                   </AnchorPane>
               </content>
             </ScrollPane>
-            <Button layoutX="308.0" layoutY="303.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="70.0" text="Enviar" textFill="#eb0e0e">
+            <Button layoutX="294.0" layoutY="304.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="89.0" text="Enviar" textFill="#eb0e0e">
                <font>
-                  <Font name="Arial Narrow Bold" size="12.0" />
+                  <Font size="11.0" />
                </font>
             </Button>
-            <TextField layoutX="23.0" layoutY="303.0" prefHeight="34.0" prefWidth="281.0">
+            <TextField fx:id="kk" layoutX="23.0" layoutY="303.0" prefHeight="35.0" prefWidth="265.0">
                <effect>
                   <DropShadow radius="28.1975" spread="0.1" width="93.79">
                      <color>
@@ -101,4 +116,8 @@
             </TextField>
          </children></AnchorPane>
    </children>
+   <styleClass>
+      <String fx:value="background" />
+      <String fx:value="context-menu" />
+   </styleClass>
 </GridPane>

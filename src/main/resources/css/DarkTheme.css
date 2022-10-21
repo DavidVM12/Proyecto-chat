@@ -10,4 +10,27 @@
     -fx-background-color: white;
 }
 
+.scroll-pane {
+   -fx-background-color: #33302F;
+}
+
+.titled-pane > .title {
+    -fx-background-color: #33302F;
+    -fx-background-insets: 0;
+}
+
+.titled-pane > .title > *.text {
+    -fx-fill: #fff;
+}
+
+.titled-pane > .content {
+    -fx-background-color: #777170;
+}
+
+.custom-dashed-border {
+    -fx-border-color: #777170 ;
+    -fx-border-width: 5 ;
+    -fx-border-style: segments(10, 15, 15, 15)  line-cap round ;
+}
+
 

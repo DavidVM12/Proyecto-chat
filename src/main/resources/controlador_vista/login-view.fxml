@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="background" stylesheets="@../css/DarkTheme.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="background" stylesheets="@../css/DarkTheme.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador_vista.LoginController">
    <children>
       <VBox alignment="TOP_CENTER" prefHeight="400.0" prefWidth="263.0" styleClass="left-background" stylesheets="@../css/DarkTheme.css">
          <children>
@@ -103,9 +103,9 @@
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <TextField promptText="Enter Domain" GridPane.rowIndex="1" />
-                              <TextField promptText="Enter Paswword" GridPane.rowIndex="2" />
-                              <TextField promptText="Enter UserName" />
+                              <TextField fx:id="fielDomain" promptText="Enter Domain" GridPane.rowIndex="1" />
+                              <TextField fx:id="fielPassword" promptText="Enter Paswword" GridPane.rowIndex="2" />
+                              <TextField fx:id="fieldUserName" promptText="Enter UserName" />
                            </children>
                         </GridPane>
                      </children>
@@ -114,12 +114,12 @@
             </HBox>
             <VBox prefHeight="28.0" prefWidth="241.0">
                <children>
-                  <CheckBox mnemonicParsing="false" stylesheets="@../css/DarkTheme.css" text="Save Password" textFill="WHITE">
+                  <CheckBox fx:id="checkPassword" mnemonicParsing="false" stylesheets="@../css/DarkTheme.css" text="Save Password" textFill="WHITE">
                      <VBox.margin>
                         <Insets bottom="5.0" />
                      </VBox.margin>
                   </CheckBox>
-                  <CheckBox mnemonicParsing="false" text="Auto Login" textFill="WHITE">
+                  <CheckBox fx:id="checkLogin" mnemonicParsing="false" text="Auto Login" textFill="WHITE">
                      <VBox.margin>
                         <Insets bottom="5.0" />
                      </VBox.margin>
@@ -131,7 +131,7 @@
             </VBox>
             <HBox prefHeight="54.0" prefWidth="272.0">
                <children>
-                  <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="262.0" text="Login">
+                  <Button fx:id="btnLogin" mnemonicParsing="false" onAction="#iniciarSeccion" prefHeight="35.0" prefWidth="262.0" text="Login">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>

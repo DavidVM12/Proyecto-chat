@@ -1,5 +1,6 @@
 package controlador_vista;
 
+import controlador_vista.client.ChatController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;

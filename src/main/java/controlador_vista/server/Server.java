@@ -10,6 +10,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class Server {
+
     private ServerSocket serverSocket;
     private Socket socket;
     private BufferedReader bufferedReader;

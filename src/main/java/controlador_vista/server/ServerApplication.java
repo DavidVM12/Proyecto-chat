@@ -10,11 +10,13 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class ServerApplication extends Application {
+
     @Override
     public void start(Stage primaryStage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("chat-view-server.fxml"));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("chat-view-server.fxml")));
         primaryStage.setTitle("Server!");
         primaryStage.setScene(new Scene(root, 480, 400));
         primaryStage.show();
@@ -23,4 +25,5 @@ public class ServerApplication extends Application {
     public static void main(String[] args) {
         launch();
     }
+
 }

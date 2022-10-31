@@ -52,7 +52,7 @@ public class ChatController implements Initializable {
             client = new Client(new Socket("localhost", 1234));
             System.out.println("Connected to Server");
         }catch(IOException e){
-            e.printStackTrace();
+//            e.printStackTrace();
             System.out.println("Error creating Client ... ");
         }
 

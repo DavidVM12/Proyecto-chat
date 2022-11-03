@@ -8,28 +8,36 @@ import java.net.Socket;
 public class Client {
 
     private Socket socket;
-    private BufferedReader bufferedReader;
-    private BufferedWriter bufferedWriter;
+
+    private ObjectOutputStream objectOutputStream;
+    private ObjectInputStream objectInputStream;
+
+//    private BufferedReader bufferedReader;
+//    private BufferedWriter bufferedWriter;
 
     public Client(Socket socket) {
         try{
             this.socket = socket;
-            this.bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            this.bufferedWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+
+            objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+            objectInputStream = new ObjectInputStream(socket.getInputStream());
+
+//            this.bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+//            this.bufferedWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
         }catch(IOException e){
             System.out.println("Error creating Client!");
             e.printStackTrace();
-            closeEverything(socket, bufferedReader, bufferedWriter);
+            closeEverything(socket, objectOutputStream, objectInputStream);
         }
     }
 
-    private void closeEverything(Socket socket, BufferedReader bufferedReader, BufferedWriter bufferedWriter){
+    private void closeEverything(Socket socket, ObjectOutputStream objectOutputStream, ObjectInputStream objectInputStream){
         try{
-            if (bufferedReader != null) {
-                bufferedReader.close();
+            if (objectOutputStream != null) {
+                objectOutputStream.close();
             }
-            if (bufferedWriter != null) {
-                bufferedWriter.close();
+            if (objectInputStream != null) {
+                objectInputStream.close();
             }
             if (socket != null) {
                 socket.close();
@@ -42,13 +50,13 @@ public class Client {
 
     public void sendMessageToServer(String messageToServer) {
         try{
-            bufferedWriter.write(messageToServer);
-            bufferedWriter.newLine();
-            bufferedWriter.flush();
+            objectOutputStream.writeObject(messageToServer);
+//            objectOutputStream.newLine();
+//            objectOutputStream.flush();
         }catch(IOException e){
             e.printStackTrace();
             System.out.println("Error sending message to the Server!");
-            closeEverything(socket, bufferedReader, bufferedWriter);
+            closeEverything(socket, objectOutputStream, objectInputStream);
         }
     }
 
@@ -58,13 +66,15 @@ public class Client {
             public void run() {
                 while(socket.isConnected()){
                     try{
-                        String messageFromServer = bufferedReader.readLine();
+                        String messageFromServer = objectInputStream.readObject().toString();
                         ChatController.addLabel(messageFromServer, vbox_messages);
                     }catch (IOException e){
                         e.printStackTrace();
                         System.out.println("Error receiving message from the Server!");
-                        closeEverything(socket, bufferedReader, bufferedWriter);
+                        closeEverything(socket, objectOutputStream, objectInputStream);
                         break;
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
                     }
                 }
             }

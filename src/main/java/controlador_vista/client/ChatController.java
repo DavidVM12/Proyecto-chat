@@ -40,16 +40,10 @@ public class ChatController implements Initializable {
 
     private Client client;
 
-//    Se quita la accion del boton
-//    @FXML
-//    protected void enviarMensaje() {
-//
-//    }
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try{
-            client = new Client(new Socket("localhost", 1234));
+            client = new Client(new Socket("localhost", 5000));
             System.out.println("Connected to Server");
         }catch(IOException e){
 //            e.printStackTrace();

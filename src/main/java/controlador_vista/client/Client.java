@@ -9,8 +9,9 @@ public class Client {
 
     private Socket socket;
 
-    private ObjectOutputStream objectOutputStream;
-    private ObjectInputStream objectInputStream;
+    private ObjectOutputStream Output;
+    private ObjectInputStream Input;
+    static String usuarios;
 
 //    private BufferedReader bufferedReader;
 //    private BufferedWriter bufferedWriter;
@@ -19,15 +20,15 @@ public class Client {
         try{
             this.socket = socket;
 
-            objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
-            objectInputStream = new ObjectInputStream(socket.getInputStream());
+            Output = new ObjectOutputStream(socket.getOutputStream());
+            Input = new ObjectInputStream(socket.getInputStream());
 
 //            this.bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 //            this.bufferedWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
         }catch(IOException e){
             System.out.println("Error creating Client!");
             e.printStackTrace();
-            closeEverything(socket, objectOutputStream, objectInputStream);
+            closeEverything(socket, Output, Input);
         }
     }
 
@@ -50,13 +51,11 @@ public class Client {
 
     public void sendMessageToServer(String messageToServer) {
         try{
-            objectOutputStream.writeObject(messageToServer);
-//            objectOutputStream.newLine();
-//            objectOutputStream.flush();
+            Output.writeObject(messageToServer);
         }catch(IOException e){
             e.printStackTrace();
             System.out.println("Error sending message to the Server!");
-            closeEverything(socket, objectOutputStream, objectInputStream);
+            closeEverything(socket, Output, Input);
         }
     }
 
@@ -66,12 +65,41 @@ public class Client {
             public void run() {
                 while(socket.isConnected()){
                     try{
-                        String messageFromServer = objectInputStream.readObject().toString();
+                        String messageFromServer = Input.readObject().toString();
                         ChatController.addLabel(messageFromServer, vbox_messages);
+
+                        switch (messageFromServer.charAt(0)){
+
+                            case '@':
+//                        Login
+                                break;
+
+                            case '#':
+//                        enviar mensaje
+                                break;
+
+                            case '$':
+//                        recibir usuarios
+                                usuarios = messageFromServer;
+                                System.out.println(usuarios);
+                                break;
+
+                            case '%':
+//                        recibir historial de chats
+
+                                break;
+
+                            case '*':
+//                        Parar
+                                messageFromServer = "stop";
+                                break;
+
+                        }
+
                     }catch (IOException e){
                         e.printStackTrace();
                         System.out.println("Error receiving message from the Server!");
-                        closeEverything(socket, objectOutputStream, objectInputStream);
+                        closeEverything(socket, Output, Input);
                         break;
                     } catch (ClassNotFoundException e) {
                         e.printStackTrace();

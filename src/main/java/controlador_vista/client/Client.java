@@ -10,59 +10,29 @@ import java.net.Socket;
 public class Client {
 
     private Socket socket;
-
     private ObjectOutputStream Output;
     private ObjectInputStream Input;
     static String usuarios;
+    private String existencia;
 
     private static String [] arrayNombres;
 
-//    private BufferedReader bufferedReader;
-//    private BufferedWriter bufferedWriter;
 
     public Client(Socket socket) {
         try{
             this.socket = socket;
-
             Output = new ObjectOutputStream(socket.getOutputStream());
-            Input = new ObjectInputStream(socket.getInputStream());
-
-            try {
-                Output.writeObject("$");
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-
-//            this.bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-//            this.bufferedWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+            Input  = new ObjectInputStream(socket.getInputStream());
         }catch(IOException e){
-            System.out.println("Error creating Client!");
+            System.out.println("Error creando el cliente!");
             e.printStackTrace();
             closeEverything(socket, Output, Input);
         }
     }
 
-    private void closeEverything(Socket socket, ObjectOutputStream objectOutputStream, ObjectInputStream objectInputStream){
-        try{
-            if (objectOutputStream != null) {
-                objectOutputStream.close();
-            }
-            if (objectInputStream != null) {
-                objectInputStream.close();
-            }
-            if (socket != null) {
-                socket.close();
-            }
-        }catch(IOException e){
-            e.printStackTrace();
-        }
-    }
-
-
     public void sendMessageToServer(String messageToServer) {
         try{
             Output.writeObject(messageToServer);
-
         }catch(IOException e){
             e.printStackTrace();
             System.out.println("Error sending message to the Server!");
@@ -76,21 +46,24 @@ public class Client {
             public void run() {
                 while(socket.isConnected()){
                     try{
+
                         String messageFromServer = Input.readObject().toString();
                         ChatController.addLabel(messageFromServer, vbox_messages);
 
                         switch (messageFromServer.charAt(0)){
 
                             case '@':
-//                        Login
+//                              Login
+                                existencia = messageFromServer;
+                                existencia = existencia.replace("@", "");
                                 break;
 
                             case '#':
-//                        enviar mensaje
+//                              enviar mensaje
                                 break;
 
                             case '$':
-//                        recibir usuarios
+//                              recibir usuarios
                                 usuarios = messageFromServer;
                                 usuarios.replace(':', ';');
                                 System.out.println(usuarios);
@@ -100,12 +73,12 @@ public class Client {
                                 break;
 
                             case '%':
-//                        recibir historial de chats
+//                              recibir historial de chats
 
                                 break;
 
                             case '*':
-//                        Parar
+//                              Parar
                                 messageFromServer = "stop";
                                 break;
 
@@ -124,12 +97,16 @@ public class Client {
         }).start();
     }
 
+    public String getExistencia() {
+        return existencia;
+    }
+
     public void crearArrayUsuarios(String usuarios){
 
-        arrayNombres = new String[usuarios.length()];
+        arrayNombres = new String[1];
 
-        for (int i = 0; i < usuarios.length(); i++){
-            arrayNombres[i] = usuarios;
+        for (int i = 0; i < 1; i++){
+            arrayNombres[i] = "Andres";
         }
 
     }
@@ -137,4 +114,21 @@ public class Client {
     public String[] getArrayNombres() {
         return arrayNombres;
     }
+
+    private void closeEverything(Socket socket, ObjectOutputStream objectOutputStream, ObjectInputStream objectInputStream){
+        try{
+            if (objectOutputStream != null) {
+                objectOutputStream.close();
+            }
+            if (objectInputStream != null) {
+                objectInputStream.close();
+            }
+            if (socket != null) {
+                socket.close();
+            }
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+
 }

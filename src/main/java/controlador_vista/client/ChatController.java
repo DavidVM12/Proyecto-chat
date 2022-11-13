@@ -1,7 +1,8 @@
 package controlador_vista.client;
 
+import controlador_vista.LoginController;
+import controlador_vista.Main;
 import javafx.application.Platform;
-import javafx.beans.Observable;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -9,6 +10,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -26,41 +28,31 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class ChatController implements Initializable {
 
-    Stage stage;
+//    private ObservableList<Object> list = FXCollections.observableArrayList();
+    private Client client;
 
     @FXML
     private Button btnEnviar;
     @FXML
     private TextField fieldEnviar;
-
     @FXML
     VBox vbox_messages;
     @FXML
     private ScrollPane sp_main;
-
-    @FXML
-    private ListView<String> myListView;
-
-    private ObservableList list = FXCollections.observableArrayList();
-
-    private Client client;
+//    @FXML
+//    private ListView<Object> myListView;
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        try {
-            client = new Client(new Socket("localhost", 5000));
-            System.out.println("Connected to Server");
-            loadList();
-        } catch (IOException e) {
-//            e.printStackTrace();
-            System.out.println("Error creating Client ... ");
-        }
+
+        client = LoginController.getClient();
+
+//        loadList();
 
         vbox_messages.heightProperty().addListener(new ChangeListener<Number>() {
             @Override
@@ -99,9 +91,8 @@ public class ChatController implements Initializable {
                 }
             }
         });
-
-
     }
+
     public static void addLabel(String messageFromServer, VBox vBox){
         HBox hBox = new HBox();
         hBox.setAlignment(Pos.CENTER_LEFT);
@@ -125,19 +116,13 @@ public class ChatController implements Initializable {
         });
     }
 
-    public void setStage(Stage stage) {
-        this.stage = stage;
-    }
-
-    private void loadList() {
-
-        list.add(client.getArrayNombres());
-        Platform.runLater(() -> {
-            myListView.setItems(list);
-        });
-
-    }
-
-
+//    private void loadList() {
+//
+//        list.add(client.getArrayNombres());
+//        Platform.runLater(() -> {
+//            myListView.setItems(list);
+//        });
+//
+//    }
 
 }

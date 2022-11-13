@@ -1,6 +1,5 @@
 package controlador_vista;
 
-import controlador_vista.client.ChatController;
 import controlador_vista.client.Client;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,35 +10,46 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.Socket;
 
 public class LoginController {
 
     Stage stage;
+    private static Client client;
+    private String existencia;
 
     @FXML
     private Button btnLogin;
     @FXML
     private TextField fieldUserName;
     @FXML
-    private TextField fielDomain;
-    @FXML
-    private TextField fielPassword;
+    private TextField fieldPassword;
     @FXML
     private CheckBox checkPassword;
     @FXML
     private CheckBox checkLogin;
 
     @FXML
-    protected void iniciarSeccion() throws IOException {
+    protected void iniciarSeccion() throws IOException, InterruptedException {
 
-        FXMLLoader fxmlLoader = new FXMLLoader(ChatController.class.getResource("/controlador_vista/client/chat-view.fxml"));
+        try {
+
+            client = new Client(new Socket("localhost", 5000));
+            System.out.println("Connected to Server");
+
+        } catch (IOException e) {
+            System.out.println("Error creating Client ... ");
+        }
+
+        FXMLLoader fxmlLoader = new FXMLLoader(LoginController.class.getResource("/controlador_vista/client/chat-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 600, 400);
         stage.setScene(scene);
-        stage.show();
 
-
-//        ChatController chatController = fxmlLoader.getController();
-//        chatController.setStage(stage);
+        client.sendMessageToServer("@" + fieldUserName.getText() + ";" + fieldPassword.getText());
+        Thread.sleep(100);
+        if(client.getExistencia().equals("true")){
+            stage.show();
+        }
 
     }
 
@@ -47,5 +57,8 @@ public class LoginController {
         this.stage = stage;
     }
 
+    public static Client getClient() {
+        return client;
+    }
 
 }

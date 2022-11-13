@@ -103,8 +103,8 @@
                                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                     </rowConstraints>
                                     <children>
-                                        <TextField fx:id="fielDomain" promptText="Enter Domain" GridPane.rowIndex="1" />
-                                        <TextField fx:id="fielPassword" promptText="Enter Paswword" GridPane.rowIndex="2" />
+                                        <TextField promptText="Enter Domain" GridPane.rowIndex="1" />
+                                        <TextField fx:id="fieldPassword" promptText="Enter Paswword" GridPane.rowIndex="2" />
                                         <TextField fx:id="fieldUserName" promptText="Enter UserName" />
                                     </children>
                                 </GridPane>

@@ -1,6 +1,7 @@
 package controlador_vista;
 
 import controlador_vista.client.ChatController;
+import controlador_vista.client.Client;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -35,6 +36,7 @@ public class LoginController {
         Scene scene = new Scene(fxmlLoader.load(), 600, 400);
         stage.setScene(scene);
         stage.show();
+
 
 //        ChatController chatController = fxmlLoader.getController();
 //        chatController.setStage(stage);

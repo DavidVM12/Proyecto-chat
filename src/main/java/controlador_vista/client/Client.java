@@ -1,5 +1,7 @@
 package controlador_vista.client;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.layout.VBox;
 
 import java.io.*;
@@ -13,6 +15,8 @@ public class Client {
     private ObjectInputStream Input;
     static String usuarios;
 
+    private static String [] arrayNombres;
+
 //    private BufferedReader bufferedReader;
 //    private BufferedWriter bufferedWriter;
 
@@ -22,6 +26,12 @@ public class Client {
 
             Output = new ObjectOutputStream(socket.getOutputStream());
             Input = new ObjectInputStream(socket.getInputStream());
+
+            try {
+                Output.writeObject("$");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
 
 //            this.bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 //            this.bufferedWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
@@ -52,6 +62,7 @@ public class Client {
     public void sendMessageToServer(String messageToServer) {
         try{
             Output.writeObject(messageToServer);
+
         }catch(IOException e){
             e.printStackTrace();
             System.out.println("Error sending message to the Server!");
@@ -81,7 +92,11 @@ public class Client {
                             case '$':
 //                        recibir usuarios
                                 usuarios = messageFromServer;
+                                usuarios.replace(':', ';');
                                 System.out.println(usuarios);
+                                String[] parts = usuarios.split(";");
+                                crearArrayUsuarios(parts[0]);
+
                                 break;
 
                             case '%':
@@ -109,4 +124,17 @@ public class Client {
         }).start();
     }
 
+    public void crearArrayUsuarios(String usuarios){
+
+        arrayNombres = new String[usuarios.length()];
+
+        for (int i = 0; i < usuarios.length(); i++){
+            arrayNombres[i] = usuarios;
+        }
+
+    }
+
+    public String[] getArrayNombres() {
+        return arrayNombres;
+    }
 }

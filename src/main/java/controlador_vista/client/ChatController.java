@@ -1,8 +1,11 @@
 package controlador_vista.client;
 
 import javafx.application.Platform;
+import javafx.beans.Observable;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -10,6 +13,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
@@ -22,6 +26,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class ChatController implements Initializable {
@@ -38,14 +43,21 @@ public class ChatController implements Initializable {
     @FXML
     private ScrollPane sp_main;
 
+    @FXML
+    private ListView<String> myListView;
+
+    private ObservableList list = FXCollections.observableArrayList();
+
     private Client client;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        try{
+        try {
             client = new Client(new Socket("localhost", 5000));
             System.out.println("Connected to Server");
-        }catch(IOException e){
+            loadList();
+        } catch (IOException e) {
 //            e.printStackTrace();
             System.out.println("Error creating Client ... ");
         }
@@ -83,11 +95,13 @@ public class ChatController implements Initializable {
 
                     client.sendMessageToServer(messageToSend);
                     fieldEnviar.clear();
+
                 }
             }
         });
-    }
 
+
+    }
     public static void addLabel(String messageFromServer, VBox vBox){
         HBox hBox = new HBox();
         hBox.setAlignment(Pos.CENTER_LEFT);
@@ -114,5 +128,16 @@ public class ChatController implements Initializable {
     public void setStage(Stage stage) {
         this.stage = stage;
     }
+
+    private void loadList() {
+
+        list.add(client.getArrayNombres());
+        Platform.runLater(() -> {
+            myListView.setItems(list);
+        });
+
+    }
+
+
 
 }

@@ -1,11 +1,15 @@
 package controlador_vista.client;
 
+import controlador_vista.LoginController;
+import controlador_vista.Main;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.VBox;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class Client {
 
@@ -14,12 +18,12 @@ public class Client {
     private ObjectInputStream Input;
     static String usuarios;
     private String existencia;
-
-    private static String [] arrayNombres;
+    private ArrayList<String> arrayNombres;
 
 
     public Client(Socket socket) {
         try{
+            arrayNombres = new ArrayList<>();
             this.socket = socket;
             Output = new ObjectOutputStream(socket.getOutputStream());
             Input  = new ObjectInputStream(socket.getInputStream());
@@ -48,7 +52,6 @@ public class Client {
                     try{
 
                         String messageFromServer = Input.readObject().toString();
-                        ChatController.addLabel(messageFromServer, vbox_messages);
 
                         switch (messageFromServer.charAt(0)){
 
@@ -59,15 +62,16 @@ public class Client {
                                 break;
 
                             case '#':
-//                              enviar mensaje
+//                              recibir mensaje
+                                ChatController.addLabel(messageFromServer, vbox_messages);
                                 break;
 
                             case '$':
 //                              recibir usuarios
                                 usuarios = messageFromServer;
-                                usuarios.replace(':', ';');
-                                System.out.println(usuarios);
+                                usuarios = usuarios.replace(":", "").replace("$","");
                                 String[] parts = usuarios.split(";");
+                                System.out.println(usuarios);
                                 crearArrayUsuarios(parts[0]);
 
                                 break;
@@ -101,17 +105,15 @@ public class Client {
         return existencia;
     }
 
-    public void crearArrayUsuarios(String usuarios){
-
-        arrayNombres = new String[1];
+    public void crearArrayUsuarios(String usuario){
 
         for (int i = 0; i < 1; i++){
-            arrayNombres[i] = "Andres";
+            arrayNombres.add(usuario);
         }
 
     }
 
-    public String[] getArrayNombres() {
+    public ArrayList<String> getArrayNombres() {
         return arrayNombres;
     }
 

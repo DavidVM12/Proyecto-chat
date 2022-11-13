@@ -1,7 +1,6 @@
 package controlador_vista.client;
 
 import controlador_vista.LoginController;
-import controlador_vista.Main;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -10,7 +9,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -23,17 +21,15 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
-import javafx.stage.Stage;
 
-import java.io.IOException;
-import java.net.Socket;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class ChatController implements Initializable {
 
-//    private ObservableList<Object> list = FXCollections.observableArrayList();
-    private Client client;
+    private static ObservableList<Object> list = FXCollections.observableArrayList();
+    private static Client client;
 
     @FXML
     private Button btnEnviar;
@@ -43,16 +39,14 @@ public class ChatController implements Initializable {
     VBox vbox_messages;
     @FXML
     private ScrollPane sp_main;
-//    @FXML
-//    private ListView<Object> myListView;
+    @FXML
+    private ListView<Object> myListView;
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         client = LoginController.getClient();
-
-//        loadList();
 
         vbox_messages.heightProperty().addListener(new ChangeListener<Number>() {
             @Override
@@ -62,6 +56,8 @@ public class ChatController implements Initializable {
         });
 
         client.receiveMessageFromServer(vbox_messages);
+
+        loadList(client.getArrayNombres());
 
         btnEnviar.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -116,13 +112,13 @@ public class ChatController implements Initializable {
         });
     }
 
-//    private void loadList() {
-//
-//        list.add(client.getArrayNombres());
-//        Platform.runLater(() -> {
-//            myListView.setItems(list);
-//        });
-//
-//    }
+    void loadList(ArrayList<String> arrayNombres) {
+
+        list.add(arrayNombres);
+        Platform.runLater(() -> {
+            myListView.setItems(list);
+        });
+
+    }
 
 }

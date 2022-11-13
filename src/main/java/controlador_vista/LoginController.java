@@ -16,7 +16,6 @@ public class LoginController {
 
     Stage stage;
     private static Client client;
-    private String existencia;
 
     @FXML
     private Button btnLogin;
@@ -43,11 +42,12 @@ public class LoginController {
 
         FXMLLoader fxmlLoader = new FXMLLoader(LoginController.class.getResource("/controlador_vista/client/chat-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 600, 400);
-        stage.setScene(scene);
 
         client.sendMessageToServer("@" + fieldUserName.getText() + ";" + fieldPassword.getText());
         Thread.sleep(100);
         if(client.getExistencia().equals("true")){
+            client.sendMessageToServer("$");
+            stage.setScene(scene);
             stage.show();
         }
 

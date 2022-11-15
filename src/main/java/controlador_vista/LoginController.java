@@ -33,7 +33,7 @@ public class LoginController {
 
         try {
 
-            client = new Client(new Socket("localhost", 5000));
+            client = new Client(new Socket("localhost", 5000), fieldUserName.getText());
             System.out.println("Connected to Server");
 
         } catch (IOException e) {

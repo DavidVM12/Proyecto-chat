@@ -19,11 +19,13 @@ public class Client {
     static String usuarios;
     private String existencia;
     private ArrayList<String> arrayNombres;
+    private String nombreUsuario;
 
 
-    public Client(Socket socket) {
+    public Client(Socket socket, String nombreUsuario) {
         try{
             arrayNombres = new ArrayList<>();
+            this.nombreUsuario = nombreUsuario;
             this.socket = socket;
             Output = new ObjectOutputStream(socket.getOutputStream());
             Input  = new ObjectInputStream(socket.getInputStream());
@@ -36,6 +38,9 @@ public class Client {
 
     public void sendMessageToServer(String messageToServer) {
         try{
+            if(messageToServer.charAt(0) != '@' && messageToServer.charAt(0) != '$') {
+                messageToServer = "#" + identificarUsuario() + ";" + messageToServer + ";" + 12 ;
+            }
             Output.writeObject(messageToServer);
         }catch(IOException e){
             e.printStackTrace();
@@ -72,7 +77,12 @@ public class Client {
                                 usuarios = usuarios.replace(":", "").replace("$","");
                                 String[] parts = usuarios.split(";");
                                 System.out.println(usuarios);
-                                crearArrayUsuarios(parts[0]);
+
+                                for (int i = 0; i < parts.length; i ++){
+
+                                    arrayNombres.add(parts[0] + " " + parts[1] + " "  + parts[2] + " "  + parts[3] + " "  + parts[4]);
+
+                                }
 
                                 break;
 
@@ -105,12 +115,18 @@ public class Client {
         return existencia;
     }
 
-    public void crearArrayUsuarios(String usuario){
+    public String identificarUsuario(){
 
-        for (int i = 0; i < 1; i++){
-            arrayNombres.add(usuario);
+        String id = "";
+
+        for (String usuario : arrayNombres){
+            String[] parts = usuario.split(";");
+            if(parts[0].equals(nombreUsuario)){
+                id = parts[2];
+            }
         }
 
+        return id;
     }
 
     public ArrayList<String> getArrayNombres() {

@@ -15,13 +15,15 @@ public class Client {
     private ObjectInputStream Input;
     static String usuarios;
     private String existencia;
-    private ObservableList<String> arrayNombres;
+    private ObservableList<String> ObservableArray;
+    private ArrayList<String> arrayNombres;
     private String nombreUsuario;
 
 
     public Client(Socket socket, String nombreUsuario) {
         try{
-            arrayNombres = FXCollections.observableArrayList();
+            ObservableArray = FXCollections.observableArrayList();
+            arrayNombres = new ArrayList<>();
             this.nombreUsuario = nombreUsuario;
             this.socket = socket;
             Output = new ObjectOutputStream(socket.getOutputStream());
@@ -75,14 +77,17 @@ public class Client {
                                 String[] parts = usuarios.split(";");
                                 System.out.println(usuarios);
 
+
                                 for (int i = 0; i < parts.length; i ++){
 
                                     // identifico el indice del nombre el cual siempre sera multiplo de 5
                                     // debido al mismo protocolo
 
-                                    if(esMultiplo(i,5)){
+                                    if(esMultiplo(i,5)) {
+                                        ObservableArray.add(parts[i]);
                                         arrayNombres.add(parts[i]);
                                     }
+
 
                                 }
 
@@ -121,11 +126,19 @@ public class Client {
 
         String id = "";
 
-        for (String usuario : arrayNombres){
-            String[] parts = usuario.split(";");
-            if(parts[0].equals(nombreUsuario)){
-                id = parts[2];
+//        for (String usuario : arrayNombres){
+//            String[] parts = usuario.split(";");
+//            if(parts[0].equals(nombreUsuario)){
+//                id = parts[2];
+//            }
+//        }
+
+        for (int i = 0; i < arrayNombres.size(); i++){
+            String[] parts = arrayNombres.get(i).split(";");
+            if(parts[i].equals(nombreUsuario)){
+                id = parts[i];
             }
+
         }
 
         return id;
@@ -138,7 +151,11 @@ public class Client {
             return false;
     }
 
-    public ObservableList<String> getArrayNombres() {
+    public ObservableList<String> getObervable() {
+        return ObservableArray;
+    }
+
+    public ArrayList<String> getArrayNombres() {
         return arrayNombres;
     }
 

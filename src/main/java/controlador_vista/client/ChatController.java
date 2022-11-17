@@ -1,33 +1,26 @@
 package controlador_vista.client;
 
-import com.sun.javafx.css.SubCssMetaData;
 import controlador_vista.LoginController;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.css.CssMetaData;
-import javafx.css.converter.PaintConverter;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
-import javafx.util.Callback;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class ChatController implements Initializable {
@@ -61,7 +54,7 @@ public class ChatController implements Initializable {
 
         client.receiveMessageFromServer(vbox_messages);
 
-        loadList( client.getArrayNombres());
+        loadList( client.getObervable());
 
         btnEnviar.setOnAction(new EventHandler<ActionEvent>() {
             @Override

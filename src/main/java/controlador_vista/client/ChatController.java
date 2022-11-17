@@ -1,26 +1,30 @@
 package controlador_vista.client;
 
+import com.sun.javafx.css.SubCssMetaData;
 import controlador_vista.LoginController;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.css.CssMetaData;
+import javafx.css.converter.PaintConverter;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
+import javafx.scene.Node;
+import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
+import javafx.util.Callback;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -28,7 +32,7 @@ import java.util.ResourceBundle;
 
 public class ChatController implements Initializable {
 
-    private static ObservableList<Object> list = FXCollections.observableArrayList();
+    private static ObservableList<String> list = FXCollections.observableArrayList();
     private static Client client;
 
     @FXML
@@ -40,7 +44,7 @@ public class ChatController implements Initializable {
     @FXML
     private ScrollPane sp_main;
     @FXML
-    private ListView<Object> myListView;
+    private ListView<String> myListView;
 
 
     @Override
@@ -57,7 +61,7 @@ public class ChatController implements Initializable {
 
         client.receiveMessageFromServer(vbox_messages);
 
-        loadList(client.getArrayNombres());
+        loadList( client.getArrayNombres());
 
         btnEnviar.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -112,13 +116,19 @@ public class ChatController implements Initializable {
         });
     }
 
-    void loadList(ArrayList<String> arrayNombres) {
 
-        list.add(arrayNombres);
-        Platform.runLater(() -> {
-            myListView.setItems(list);
-        });
+    //Transforma el array a list que deja manipular el listview
+    void loadList(ObservableList<String> arrayNombres) {
 
+        myListView.setItems(arrayNombres);
+
+
+    }
+
+    // funcion del click del contenido del listview
+    @FXML public void handleMouseClick(MouseEvent arg0) {
+        System.out.println("clicked on " + myListView.getSelectionModel().getSelectedItem());
+        //TODO: abrir nueva ventana con dentro de esta funcion
     }
 
 }

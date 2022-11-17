@@ -1,10 +1,7 @@
 package controlador_vista.client;
 
-import controlador_vista.LoginController;
-import controlador_vista.Main;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.VBox;
 
 import java.io.*;
@@ -18,13 +15,13 @@ public class Client {
     private ObjectInputStream Input;
     static String usuarios;
     private String existencia;
-    private ArrayList<String> arrayNombres;
+    private ObservableList<String> arrayNombres;
     private String nombreUsuario;
 
 
     public Client(Socket socket, String nombreUsuario) {
         try{
-            arrayNombres = new ArrayList<>();
+            arrayNombres = FXCollections.observableArrayList();
             this.nombreUsuario = nombreUsuario;
             this.socket = socket;
             Output = new ObjectOutputStream(socket.getOutputStream());
@@ -80,7 +77,12 @@ public class Client {
 
                                 for (int i = 0; i < parts.length; i ++){
 
-                                    arrayNombres.add(parts[0] + " " + parts[1] + " "  + parts[2] + " "  + parts[3] + " "  + parts[4]);
+                                    // identifico el indice del nombre el cual siempre sera multiplo de 5
+                                    // debido al mismo protocolo
+
+                                    if(esMultiplo(i,5)){
+                                        arrayNombres.add(parts[i]);
+                                    }
 
                                 }
 
@@ -129,7 +131,14 @@ public class Client {
         return id;
     }
 
-    public ArrayList<String> getArrayNombres() {
+    public static boolean esMultiplo(int n1,int n2){
+        if (n1%n2==0)
+            return true;
+        else
+            return false;
+    }
+
+    public ObservableList<String> getArrayNombres() {
         return arrayNombres;
     }
 

@@ -10,6 +10,8 @@ import java.util.ArrayList;
 
 public class Client {
 
+
+    private String remitente;
     private Socket socket;
     private ObjectOutputStream Output;
     private ObjectInputStream Input;
@@ -18,6 +20,8 @@ public class Client {
     private ObservableList<String> ObservableArray;
     private ArrayList<String> arrayNombres;
     private String nombreUsuario;
+    static String[] parts;
+
 
 
     public Client(Socket socket, String nombreUsuario) {
@@ -38,7 +42,7 @@ public class Client {
     public void sendMessageToServer(String messageToServer) {
         try{
             if(messageToServer.charAt(0) != '@' && messageToServer.charAt(0) != '$') {
-                messageToServer = "#" + identificarUsuario() + ";" + messageToServer + ";" + 12 ;
+                messageToServer = "#" + identificarUsuario(nombreUsuario) + ";" + messageToServer + ";" + remitente ;
             }
             Output.writeObject(messageToServer);
         }catch(IOException e){
@@ -74,18 +78,19 @@ public class Client {
 //                              recibir usuarios
                                 usuarios = messageFromServer;
                                 usuarios = usuarios.replace(":", "").replace("$","");
-                                String[] parts = usuarios.split(";");
+                                parts = usuarios.split(";");
                                 System.out.println(usuarios);
 
 
                                 for (int i = 0; i < parts.length; i ++){
+
 
                                     // identifico el indice del nombre el cual siempre sera multiplo de 5
                                     // debido al mismo protocolo
 
                                     if(esMultiplo(i,5)) {
                                         ObservableArray.add(parts[i]);
-                                        arrayNombres.add(parts[i]);
+
                                     }
 
 
@@ -122,22 +127,16 @@ public class Client {
         return existencia;
     }
 
-    public String identificarUsuario(){
+    public String identificarUsuario(String nombre){
 
         String id = "";
 
-//        for (String usuario : arrayNombres){
-//            String[] parts = usuario.split(";");
-//            if(parts[0].equals(nombreUsuario)){
-//                id = parts[2];
-//            }
-//        }
+        for (int i = 0; i < parts.length; i++){
 
-        for (int i = 0; i < arrayNombres.size(); i++){
-            String[] parts = arrayNombres.get(i).split(";");
-            if(parts[i].equals(nombreUsuario)){
-                id = parts[i];
-            }
+                if(parts[i].equals(nombre)){
+                    // como el id esta dos casillas adelante
+                    id = parts[i+2];
+                }
 
         }
 
@@ -175,4 +174,12 @@ public class Client {
         }
     }
 
+
+    public String getRemitente() {
+        return remitente;
+    }
+
+    public void setRemitente(String remitente) {
+        this.remitente = remitente;
+    }
 }

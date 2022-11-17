@@ -121,7 +121,12 @@ public class ChatController implements Initializable {
     // funcion del click del contenido del listview
     @FXML public void handleMouseClick(MouseEvent arg0) {
         System.out.println("clicked on " + myListView.getSelectionModel().getSelectedItem());
+        String nombre = myListView.getSelectionModel().getSelectedItem();
         //TODO: abrir nueva ventana con dentro de esta funcion
+        String id = client.identificarUsuario(nombre);
+        System.out.println(id);
+
+        client.setRemitente(id);
     }
 
 }

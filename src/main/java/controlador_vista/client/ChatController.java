@@ -125,8 +125,9 @@ public class ChatController implements Initializable {
         //TODO: abrir nueva ventana con dentro de esta funcion
         String id = client.identificarUsuario(nombre);
         System.out.println(id);
-
         client.setRemitente(id);
+//        Solicitar historial de chats, Se puede mover si se cree conveniente, aunque yo lo dejaria ahi
+        client.sendMessageToServer("%");
     }
 
 }

@@ -21,6 +21,7 @@ public class Client {
     private ArrayList<String> arrayNombres;
     private String nombreUsuario;
     static String[] parts;
+    private String historial;
 
 
 
@@ -41,7 +42,8 @@ public class Client {
 
     public void sendMessageToServer(String messageToServer) {
         try{
-            if(messageToServer.charAt(0) != '@' && messageToServer.charAt(0) != '$') {
+//            No tocar, creo que esta bien
+            if(messageToServer.charAt(0) != '@' && messageToServer.charAt(0) != '$' && messageToServer.charAt(0) != '%') {
                 messageToServer = "#" + identificarUsuario(nombreUsuario) + ";" + messageToServer + ";" + remitente ;
             }
             Output.writeObject(messageToServer);
@@ -64,7 +66,7 @@ public class Client {
                         switch (messageFromServer.charAt(0)){
 
                             case '@':
-//                              Login
+//                              Login, no tocar
                                 existencia = messageFromServer;
                                 existencia = existencia.replace("@", "");
                                 break;
@@ -84,7 +86,6 @@ public class Client {
 
                                 for (int i = 0; i < parts.length; i ++){
 
-
                                     // identifico el indice del nombre el cual siempre sera multiplo de 5
                                     // debido al mismo protocolo
 
@@ -93,13 +94,15 @@ public class Client {
 
                                     }
 
-
                                 }
 
                                 break;
 
                             case '%':
 //                              recibir historial de chats
+//                                TODO: Identificar del historial cuales chats sirven por el ID del que recibe (Se puede modificar para cuadrar la forma del historial)
+                                historial = messageFromServer;
+                                historial = historial.replace(":", "").replace("$","");
 
                                 break;
 

@@ -106,9 +106,6 @@ public class Client {
                                 historial = messageFromServer;
                                 historial = historial.replace(":", "").replace("%","");
                                 partsHistorial = historial.split(";");
-                                for (int i = 0; i < partsHistorial.length; i++) {
-                                    System.out.println(partsHistorial[i]);
-                                }
 
                                 break;
 

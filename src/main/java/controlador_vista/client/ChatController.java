@@ -79,8 +79,8 @@ public class ChatController implements Initializable {
                 if (!messageToSend.isBlank()) {
                     HBox hBox = new HBox();
                     hBox.setAlignment(Pos.CENTER_RIGHT);
-
                     hBox.setPadding(new Insets(5, 5, 5, 10));
+
                     Text text = new Text(messageToSend);
                     TextFlow textFlow = new TextFlow(text);
                     textFlow.setStyle(
@@ -125,6 +125,55 @@ public class ChatController implements Initializable {
         });
     }
 
+    public static void addLabelLeft(String messageFromServer, VBox vBox){
+        HBox hBox = new HBox();
+        hBox.setAlignment(Pos.CENTER_LEFT);
+        hBox.setPadding(new Insets(5, 5, 5, 10));
+
+        Text text = new Text(messageFromServer);
+        TextFlow textFlow = new TextFlow(text);
+
+        textFlow.setStyle(
+                "-fx-background-color: rgb(233, 233, 235);" +
+                        "-fx-background-radius: 20px;");
+
+        textFlow.setPadding(new Insets(5, 10, 5, 10));
+        hBox.getChildren().add(textFlow);
+
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                vBox.getChildren().add(hBox);
+            }
+        });
+    }
+
+    public static void addLabelRigth(String messageFromServer, VBox vBox){
+
+        HBox hBox = new HBox();
+        hBox.setAlignment(Pos.CENTER_RIGHT);
+        hBox.setPadding(new Insets(5, 5, 5, 10));
+
+        Text text = new Text(messageFromServer);
+        TextFlow textFlow = new TextFlow(text);
+
+        textFlow.setStyle(
+                "-fx-color: rgb(239, 242, 255);" +
+                        "-fx-background-color: rgb(15, 125, 242);" +
+                        "-fx-background-radius: 20px;");
+
+        textFlow.setPadding(new Insets(5, 10, 5, 10));
+        hBox.getChildren().add(textFlow);
+
+
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                vBox.getChildren().add(hBox);
+            }
+        });
+    }
+
     //Transforma el array a list que deja manipular el listview
     void loadList(ObservableList<String> arrayNombres) {
 
@@ -132,12 +181,12 @@ public class ChatController implements Initializable {
 
     }
 
-    public void pintarHistorial(){
+    public void pintarHistorial(String remitente){
         vbox_messages.heightProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 sp_main.setVvalue((Double) newValue);
-//                vbox_messages.getChildren().removeAll();
+
             }
         });
 
@@ -145,7 +194,18 @@ public class ChatController implements Initializable {
 
         for (int i = 0; i < historial.length; i++) {
 
-            if (client.esMultiplo(i,4)) addLabel(historial[i], vbox_messages);
+            if (client.esMultiplo(i,4) ) {
+
+                if (historial[i + 1].equals(remitente) ) {
+                    addLabelLeft(historial[i], vbox_messages);
+                } else {
+
+                    addLabelRigth(historial[i],vbox_messages);
+                }
+
+
+            }
+
         }
 
     }
@@ -160,11 +220,15 @@ public class ChatController implements Initializable {
 
         client.setRemitente(id);
 
+        String remitente = client.getRemitente();
+
         client.sendMessageToServer("%");
 
-        pintarHistorial();
+//        vbox_messages.getChildren().clear();
 
-        vbox_messages.getChildren().clear();
+        pintarHistorial(remitente);
+
+
 
     }
 }

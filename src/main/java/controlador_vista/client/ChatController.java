@@ -1,6 +1,7 @@
 package controlador_vista.client;
 
 import controlador_vista.LoginController;
+import controlador_vista.Main;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -9,9 +10,12 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -19,11 +23,17 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
-
+import javafx.stage.Stage;
+import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class ChatController implements Initializable {
+
+    boolean bandera;
+
+    Stage stage;
 
     private static ObservableList<String> list = FXCollections.observableArrayList();
     private static Client client;
@@ -49,8 +59,14 @@ public class ChatController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 sp_main.setVvalue((Double) newValue);
+
             }
         });
+
+        // Scroll infinito- supongo...
+        double posInf = Double.POSITIVE_INFINITY;
+        sp_main.setMaxHeight(posInf);
+
 
         client.receiveMessageFromServer(vbox_messages);
 
@@ -109,25 +125,46 @@ public class ChatController implements Initializable {
         });
     }
 
-
     //Transforma el array a list que deja manipular el listview
     void loadList(ObservableList<String> arrayNombres) {
 
         myListView.setItems(arrayNombres);
 
+    }
+
+    public void pintarHistorial(){
+        vbox_messages.heightProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                sp_main.setVvalue((Double) newValue);
+//                vbox_messages.getChildren().removeAll();
+            }
+        });
+
+        String [] historial = client.getPartsHistorial();
+
+        for (int i = 0; i < historial.length; i++) {
+
+            if (client.esMultiplo(i,4)) addLabel(historial[i], vbox_messages);
+        }
 
     }
+
 
     // funcion del click del contenido del listview
-    @FXML public void handleMouseClick(MouseEvent arg0) {
-        System.out.println("clicked on " + myListView.getSelectionModel().getSelectedItem());
-        String nombre = myListView.getSelectionModel().getSelectedItem();
-        //TODO: abrir nueva ventana con dentro de esta funcion
-        String id = client.identificarUsuario(nombre);
-        System.out.println(id);
-        client.setRemitente(id);
-//        Solicitar historial de chats, Se puede mover si se cree conveniente, aunque yo lo dejaria ahi
-        client.sendMessageToServer("%");
-    }
+    @FXML public void handleMouseClick(MouseEvent arg0) throws IOException {
 
+        String nombre = myListView.getSelectionModel().getSelectedItem();
+
+        String id = client.identificarUsuario(nombre);
+
+        client.setRemitente(id);
+
+        client.sendMessageToServer("%");
+
+        pintarHistorial();
+
+        vbox_messages.getChildren().clear();
+
+    }
 }

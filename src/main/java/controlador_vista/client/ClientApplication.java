@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class ClientApplication extends Application {
-
     @Override
     public void start(Stage primaryStage) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("chat-view.fxml")));

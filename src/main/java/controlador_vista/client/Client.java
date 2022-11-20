@@ -23,6 +23,8 @@ public class Client {
     static String[] parts;
     private String historial;
 
+    private String[] partsHistorial;
+
 
 
     public Client(Socket socket, String nombreUsuario) {
@@ -102,7 +104,11 @@ public class Client {
 //                              recibir historial de chats
 //                                TODO: Identificar del historial cuales chats sirven por el ID del que recibe (Se puede modificar para cuadrar la forma del historial)
                                 historial = messageFromServer;
-                                historial = historial.replace(":", "").replace("$","");
+                                historial = historial.replace(":", "").replace("%","");
+                                partsHistorial = historial.split(";");
+                                for (int i = 0; i < partsHistorial.length; i++) {
+                                    System.out.println(partsHistorial[i]);
+                                }
 
                                 break;
 
@@ -146,7 +152,7 @@ public class Client {
         return id;
     }
 
-    public static boolean esMultiplo(int n1,int n2){
+    public boolean esMultiplo(int n1,int n2){
         if (n1%n2==0)
             return true;
         else
@@ -157,8 +163,8 @@ public class Client {
         return ObservableArray;
     }
 
-    public ArrayList<String> getArrayNombres() {
-        return arrayNombres;
+    public String[] getPartsHistorial() {
+        return partsHistorial;
     }
 
     private void closeEverything(Socket socket, ObjectOutputStream objectOutputStream, ObjectInputStream objectInputStream){

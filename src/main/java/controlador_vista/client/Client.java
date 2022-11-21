@@ -10,27 +10,22 @@ import java.util.ArrayList;
 
 public class Client {
 
-
-    private String remitente;
     private Socket socket;
     private ObjectOutputStream Output;
     private ObjectInputStream Input;
-    static String usuarios;
-    private String existencia;
     private ObservableList<String> ObservableArray;
-    private ArrayList<String> arrayNombres;
+    private String existencia;
     private String nombreUsuario;
+    private String remitente;
+    static String usuarios;
+
     static String[] parts;
     private String historial;
-
     private String[] partsHistorial;
-
-
 
     public Client(Socket socket, String nombreUsuario) {
         try{
             ObservableArray = FXCollections.observableArrayList();
-            arrayNombres = new ArrayList<>();
             this.nombreUsuario = nombreUsuario;
             this.socket = socket;
             Output = new ObjectOutputStream(socket.getOutputStream());
@@ -65,7 +60,7 @@ public class Client {
 
                         String messageFromServer = Input.readObject().toString();
 
-                        switch (messageFromServer.charAt(0)){
+                        switch (messageFromServer.charAt(0)) {
 
                             case '@':
 //                              Login, no tocar
@@ -85,19 +80,12 @@ public class Client {
                                 parts = usuarios.split(";");
                                 System.out.println(usuarios);
 
-
                                 for (int i = 0; i < parts.length; i ++){
-
-                                    // identifico el indice del nombre el cual siempre sera multiplo de 5
-                                    // debido al mismo protocolo
-
+                                    // identifico el indice del nombre el cual siempre sera multiplo de 5 debido al mismo protocolo
                                     if(esMultiplo(i,5)) {
                                         ObservableArray.add(parts[i]);
-
                                     }
-
                                 }
-
                                 break;
 
                             case '%':
@@ -106,19 +94,12 @@ public class Client {
                                 historial = messageFromServer;
                                 historial = historial.replace(":", "").replace("%","");
                                 partsHistorial = historial.split(";");
-
                                 break;
-
-                            case '*':
-//                              Parar
-                                messageFromServer = "stop";
-                                break;
-
                         }
 
-                    }catch (IOException e){
+                    } catch (IOException e) {
                         e.printStackTrace();
-                        System.out.println("Error receiving message from the Server!");
+                        System.out.println("Error al recibir un mensaje del servidor!");
                         closeEverything(socket, Output, Input);
                         break;
                     } catch (ClassNotFoundException e) {
@@ -129,20 +110,16 @@ public class Client {
         }).start();
     }
 
-    public String getExistencia() {
-        return existencia;
-    }
-
     public String identificarUsuario(String nombre){
 
         String id = "";
 
         for (int i = 0; i < parts.length; i++){
 
-                if(parts[i].equals(nombre)){
-                    // como el id esta dos casillas adelante
-                    id = parts[i+2];
-                }
+            if(parts[i].equals(nombre)){
+                // como el id esta dos casillas adelante
+                id = parts[i+2];
+            }
 
         }
 
@@ -180,7 +157,6 @@ public class Client {
         }
     }
 
-
     public String getRemitente() {
         return remitente;
     }
@@ -188,4 +164,11 @@ public class Client {
     public void setRemitente(String remitente) {
         this.remitente = remitente;
     }
+
+    public String getIdUsuario(){ return identificarUsuario(nombreUsuario); }
+
+    public String getExistencia() {
+        return existencia;
+    }
+
 }

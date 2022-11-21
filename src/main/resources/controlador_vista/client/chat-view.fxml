@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="background" stylesheets="@../../css/DarkTheme.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador_vista.client.ChatController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="background" stylesheets="@../../css/DarkTheme.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador_vista.client.ChatController">
    <children>
       <HBox layoutX="1.0" prefHeight="400.0" prefWidth="600.0">
          <children>
@@ -31,7 +31,7 @@
 
                         <ScrollPane fx:id="sp_main" fitToWidth="true" layoutX="15.0" layoutY="56.0" prefHeight="253.0" prefWidth="342.0" styleClass="custom-dashed-border" stylesheets="@../../css/DarkTheme.css">
                            <content>
-                              <VBox fx:id="vbox_messages" minHeight="0.0" minWidth="0.0" prefHeight="248" prefWidth="412" styleClass="scroll-pane" stylesheets="@../../css/DarkTheme.css" />
+                              <VBox fx:id="vbox_messages" layoutY="-150.0" minHeight="0.0" minWidth="0.0" prefHeight="635.0" prefWidth="317.0" styleClass="scroll-pane" stylesheets="@../../css/DarkTheme.css" />
                            </content>
                         </ScrollPane>
 

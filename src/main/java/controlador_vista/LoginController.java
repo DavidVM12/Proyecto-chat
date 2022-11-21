@@ -32,10 +32,8 @@ public class LoginController {
     protected void iniciarSeccion() throws IOException, InterruptedException {
 
         try {
-
             client = new Client(new Socket("localhost", 5000), fieldUserName.getText());
             System.out.println("Connected to Server");
-
         } catch (IOException e) {
             System.out.println("Error creating Client ... ");
         }
@@ -45,6 +43,7 @@ public class LoginController {
 
         client.sendMessageToServer("@" + fieldUserName.getText() + ";" + fieldPassword.getText());
         Thread.sleep(100);
+
         if(client.getExistencia().equals("true")){
             client.sendMessageToServer("$");
             stage.setScene(scene);

@@ -18,6 +18,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -31,11 +32,6 @@ import java.util.ResourceBundle;
 
 public class ChatController implements Initializable {
 
-    boolean bandera;
-
-    Stage stage;
-
-    private static ObservableList<String> list = FXCollections.observableArrayList();
     private static Client client;
 
     @FXML
@@ -63,10 +59,9 @@ public class ChatController implements Initializable {
             }
         });
 
-        // Scroll infinito- supongo...
-        double posInf = Double.POSITIVE_INFINITY;
-        sp_main.setMaxHeight(posInf);
-
+//        Scroll infinito- supongo...
+//        double posInf = Double.POSITIVE_INFINITY;
+//        sp_main.setMaxHeight(posInf);
 
         client.receiveMessageFromServer(vbox_messages);
 
@@ -102,7 +97,51 @@ public class ChatController implements Initializable {
         });
     }
 
-    public static void addLabel(String messageFromServer, VBox vBox){
+    // funcion del click del contenido del listview
+    @FXML public void handleMouseClick(MouseEvent arg0) throws IOException {
+
+        String nombre = myListView.getSelectionModel().getSelectedItem();
+
+        String id = client.identificarUsuario(nombre);
+
+        client.setRemitente(id);
+
+        String remitente = client.getRemitente();
+
+        client.sendMessageToServer("%");
+
+        vbox_messages.getChildren().clear();
+
+        pintarHistorial(remitente);
+
+    }
+
+    public static void addLabel(String messageFromServer, VBox vBox) {
+        HBox hBox = new HBox();
+        hBox.setAlignment(Pos.CENTER_LEFT);
+        hBox.setPadding(new Insets(5, 5, 5, 10));
+
+        String[] parts = messageFromServer.split(";");
+
+        Text text = new Text(parts[1]);
+        TextFlow textFlow = new TextFlow(text);
+
+        textFlow.setStyle(
+                "-fx-background-color: rgb(233, 233, 235);" +
+                        "-fx-background-radius: 20px;");
+
+        textFlow.setPadding(new Insets(5, 10, 5, 10));
+        hBox.getChildren().add(textFlow);
+
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                vBox.getChildren().add(hBox);
+            }
+        });
+    }
+
+    public static void addLabelLeft(String messageFromServer, VBox vBox) {
         HBox hBox = new HBox();
         hBox.setAlignment(Pos.CENTER_LEFT);
         hBox.setPadding(new Insets(5, 5, 5, 10));
@@ -125,31 +164,7 @@ public class ChatController implements Initializable {
         });
     }
 
-    public static void addLabelLeft(String messageFromServer, VBox vBox){
-        HBox hBox = new HBox();
-        hBox.setAlignment(Pos.CENTER_LEFT);
-        hBox.setPadding(new Insets(5, 5, 5, 10));
-
-        Text text = new Text(messageFromServer);
-        TextFlow textFlow = new TextFlow(text);
-
-        textFlow.setStyle(
-                "-fx-background-color: rgb(233, 233, 235);" +
-                        "-fx-background-radius: 20px;");
-
-        textFlow.setPadding(new Insets(5, 10, 5, 10));
-        hBox.getChildren().add(textFlow);
-
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                vBox.getChildren().add(hBox);
-            }
-        });
-    }
-
-    public static void addLabelRigth(String messageFromServer, VBox vBox){
-
+    public static void addLabelRigth(String messageFromServer, VBox vBox) {
         HBox hBox = new HBox();
         hBox.setAlignment(Pos.CENTER_RIGHT);
         hBox.setPadding(new Insets(5, 5, 5, 10));
@@ -174,14 +189,12 @@ public class ChatController implements Initializable {
         });
     }
 
-    //Transforma el array a list que deja manipular el listview
+//    Transforma el array a list que deja manipular el listview
     void loadList(ObservableList<String> arrayNombres) {
-
         myListView.setItems(arrayNombres);
-
     }
 
-    public void pintarHistorial(String remitente){
+    public void pintarHistorial(String remitente) {
         vbox_messages.heightProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
@@ -192,43 +205,17 @@ public class ChatController implements Initializable {
 
         String [] historial = client.getPartsHistorial();
 
-        for (int i = 0; i < historial.length; i++) {
-
-            if (client.esMultiplo(i,4) ) {
-
-                if (historial[i + 1].equals(remitente) ) {
-                    addLabelLeft(historial[i], vbox_messages);
-                } else {
-
-                    addLabelRigth(historial[i],vbox_messages);
+        if(historial != null) {
+            for (int i = 0; i < historial.length; i++) {
+                if (client.esMultiplo(i,4) ) {
+                    if (historial[i + 1].equals(remitente) ) {
+                        addLabelRigth(historial[i], vbox_messages);
+                    } else if (historial[i + 1].equals(client.getIdUsuario())) {
+                        addLabelLeft(historial[i], vbox_messages);
+                    }
                 }
-
-
             }
-
         }
-
     }
 
-
-    // funcion del click del contenido del listview
-    @FXML public void handleMouseClick(MouseEvent arg0) throws IOException {
-
-        String nombre = myListView.getSelectionModel().getSelectedItem();
-
-        String id = client.identificarUsuario(nombre);
-
-        client.setRemitente(id);
-
-        String remitente = client.getRemitente();
-
-        client.sendMessageToServer("%");
-
-//        vbox_messages.getChildren().clear();
-
-        pintarHistorial(remitente);
-
-
-
-    }
 }

@@ -59,13 +59,9 @@ public class ChatController implements Initializable {
             }
         });
 
-//        Scroll infinito- supongo...
-//        double posInf = Double.POSITIVE_INFINITY;
-//        sp_main.setMaxHeight(posInf);
-
         client.receiveMessageFromServer(vbox_messages);
 
-        loadList( client.getObervable());
+        loadList(client.getObervable());
 
         btnEnviar.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -124,6 +120,7 @@ public class ChatController implements Initializable {
         String[] parts = messageFromServer.split(";");
 
         Text text = new Text(parts[1]);
+//        Text text = new Text(messageFromServer);
         TextFlow textFlow = new TextFlow(text);
 
         textFlow.setStyle(
